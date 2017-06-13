@@ -9,13 +9,24 @@ const {Portfolio} = require('../schemas/portfolioSchema');
 const {generateRandomUrl, validateFields} = require('../helpers');
 
 const router = express.Router();
-// router.use(validateFields());
 router.use(morgan('common'));
 router.use(bodyParser.json());
 
-router.get('/:portfolio', function(req, res) {
+// REMOVE IN PRODUCTION
+router.get('/', function(req, res) {
     Portfolio
-        .findOne(req.params.portfolio)
+        .find()
+        .then(function(portfolios) {
+            res.json(portfolios);
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+});
+
+router.get('/:link', function(req, res) {
+    Portfolio
+        .find({link: req.params.link})
         .then(function(item) {
             res.json(item);
         })
@@ -35,7 +46,6 @@ router.post('/', function(req, res) {
     if (valid.error) {
         return res.status(400).json({response: valid.error});
     }
-    console.log(valid);
     
     // randomUrl pulled out of scope to use 
     // in the redirect
@@ -47,11 +57,27 @@ router.post('/', function(req, res) {
             value: req.body.value
         })
         .then(function() {
+            /*
+            app should redirect to portfolio page
+            */
             res.json({response: "created"});
         })
         .catch(function(err) {
             console.error(err);
             res.status(500).json({error: "Something went wrong"});
+        });
+});
+
+router.put('/:link', function(req, res) {
+    Portfolio
+        // new: true => returns the updated object
+        .findOneAndUpdate(
+            {link: req.params.link}, 
+            {value: req.body.value}, 
+            {new: true}
+        )
+        .then(function(updatedPortfolio) {
+            res.status(201).json(updatedPortfolio);
         });
 });
 
