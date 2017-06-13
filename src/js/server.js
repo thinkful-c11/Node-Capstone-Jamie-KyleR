@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
@@ -14,7 +15,7 @@ app.use('/security', securityRouter);
 
 app.use(morgan('common'));
 app.use(bodyParser.json());
-mongoose.Promise = global.Promise;
+
 
 app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});
