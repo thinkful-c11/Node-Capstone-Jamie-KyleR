@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const portfolioSchema = mongoose.Schema({
+    link: String,
     name: String,
     value: Number,
 });
