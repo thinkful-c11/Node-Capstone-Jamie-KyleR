@@ -14,12 +14,12 @@
       <div class="jumbotron"> 
         <h1>Turbo Trader</h1>
         <form>
-          <input type="text" class="username" minlength="5" maxlength="10" placeholder="e.g. Rick's Portfolio">
-          <input type="number" class="accountvalue" placeholder="$100,000">
+          <label for="exampleUsername">Portfolio Name</label>
+          <input required type="text" class="username" minlength="5" placeholder="e.g. Rick's Portfolio">
+          <label for="exampleAcctValue">Starting Investment Amount</label>
+          <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 100000">
+          <button id="createbutton" class="btn btn-lg btn-success" type="submit">Create Portfolio</button>
         </form>
-      <p>
-        <a class="btn btn-lg btn-success" href='portfolioview.html' role="button">Create Portfolio</a>
-      </p>
       </div>
     </div>
   
