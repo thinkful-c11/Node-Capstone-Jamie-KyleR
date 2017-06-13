@@ -5,7 +5,7 @@ mongoose.Promise = global.Promise;
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-const {Portfolio} = require('./schemas/portfolioSchema');
+const {Portfolio} = require('../schemas/portfolioSchema');
 const {generateRandomUrl, validateFields} = require('../helpers');
 
 const router = express.Router();
@@ -36,10 +36,12 @@ router.post('/', function(req, res) {
             value: req.body.value
         })
         .then(function() {
-            res.redirect(portfolioUrl);
+            res.json({response: "created"});
         })
         .catch(function(err) {
             console.error(err);
             res.status(500).json({error: 'Something went wrong'});
         });
 });
+
+module.exports = router;
