@@ -14,8 +14,22 @@ function generateRandomUrl() {
     return url;
 }
 
-function validateFields() {
-    
+function validateFields(requiredFields, givenFields) {
+    if (Object.keys(givenFields).length === 0) return {error: "Empty request."};
+
+    for (let i = 0, l = Object.keys(requiredFields).length; i < l; i++) {
+        const givenItem = Object.keys(givenFields)[i];
+        const requiredItem = Object.keys(requiredFields)[i];
+
+        if (!(Object.keys(givenFields).includes(requiredItem))) {
+            return {error: `Missing ${Object.keys(requiredFields)[i]} in request.`};
+        }
+
+        if (typeof requiredFields[requiredItem] !== typeof givenFields[givenItem]) {
+            return {error: `${Object.keys(requiredFields)[i]} is the wrong type.`};
+        }
+    }
+    return true;
 }
 
 module.exports = {generateRandomUrl, validateFields};
