@@ -8,9 +8,9 @@
     <meta name="author" content="">
 
     <title>Dashboard</title>
-    <link rel="stylesheet" href="src/css/theme.css">
-    <link rel="stylesheet" href="src/css/bootstrap.min.css">
-    <link rel="stylesheet" href="src/css/navbar-static-top.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/navbar-static-top.css">
   </head>
 <body>
   <nav class="navbar navbar-default navbar-static-top">
@@ -37,8 +37,11 @@
 
     <!--This is where we render the securities purchased-->
     <div class="info-box">
-      <div id="ticker"><h4>IBM</h4></div>
+      <div class="ticker"><h4>IBM</h4></div>
+      <div class="ticker-name"><h4>International Business Machines</h4></div>
+      <div class="shares-owned"><h4>Total Shares: </h4></div>
       <p class="share-price">Share Price: $45.00</p>
+      <div class="shares-owned-value"><h4>Total Value: </h4></div>
 
       <p> 
 <!-- Button trigger modal -->
@@ -70,7 +73,7 @@
                     <input type="checkbox"> Sell all
                   </label>
                 <p class="total-sell-amt">Total: </p>
-                <p class="account-balance">Account total: </p>
+                <!--<p class="account-balance">Account total: </p>-->
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
@@ -100,7 +103,7 @@
                     <input type="checkbox"> Buy max
                   </label>
                 <p class="total-sell-amt">Total: </p>
-                <p class="account-balance">Account total: </p>
+                <!--<p class="account-balance">Account total: </p>-->
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
@@ -115,6 +118,7 @@
     </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="src/js/bootstrap.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/dashboard.js"></script>
 </body>
 </html>
