@@ -6,6 +6,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
+  background-image: url("https://s-media-cache-ak0.pinimg.com/originals/55/0e/2a/550e2a523c8b5aab558c664349b9434d.png");
   background-color: #fff;
 }
 
@@ -45,15 +46,12 @@ body {
   }
 }
 
-.container .jumbotron {
+.jumbotron {
     padding-right: 60px;
     padding-left: 60px;
     margin: auto;
     border-radius: 6px;
-}
-
-.container-narrow > hr {
-  margin: 30px 0;
+    width: 50%;
 }
 
 .jumbotron .h1, .jumbotron h1 {
@@ -96,11 +94,16 @@ h1 {
     font-size: 5em;
 }
 
+.create-port input {
+  margin-bottom: 10px;
+}
+
 .jumbotron .btn {
   padding: 14px 24px;
   font-size: 21px;
+  display: block;
+  margin: auto;
 }
-
 
 .btn-group-lg>.btn, .btn-lg {
     padding: 10px 16px;
