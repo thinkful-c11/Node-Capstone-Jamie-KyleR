@@ -15,11 +15,11 @@
         <form class="create-port">
           <div class="form-group">
             <label for="exampleUsername">Portfolio Name</label>
-            <input required type="text" class="username" minlength="5" placeholder="e.g. Rick's Portfolio">
+            <input required type="text" id="username" minlength="5" placeholder="e.g. Rick's Portfolio">
           </div>
           <div class="form-group">
             <label for="exampleAcctValue">Starting Investment Amount</label>
-            <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 100000">
+            <input required type="text" pattern="\d*" id="accountValue" placeholder="e.g. 100000">
           </div>
           <button id="createbutton" class="btn btn-lg btn-success" type="submit">Create Portfolio</button>
         </form>
@@ -27,5 +27,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/dashboard.js"></script>
+    <script src="../js/index.js"></script>
   </body>
 </html>
