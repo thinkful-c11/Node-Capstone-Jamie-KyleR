@@ -11,6 +11,10 @@ const { generateRandomUrl, validateFields } = require('../helpers');
 const router = express.Router();
 router.use(morgan('common'));
 router.use(bodyParser.json());
+router.use(express.static('src'));
+
+const dirname = __dirname.split('/').slice(0, -3).join('/');
+console.log(dirname)
 
 // REMOVE IN PRODUCTION
 router.get('/', function (req, res) {
@@ -28,8 +32,7 @@ router.get('/:link', function (req, res) {
   Portfolio
         .find({ link: req.params.link })
         .then(function (item) {
-
-          res.json(item);
+          res.sendFile(dirname + '/src/html/portfolioview.html');
         })
         .catch(function () {
           res.status(404).json({ error: 'Not Found' });

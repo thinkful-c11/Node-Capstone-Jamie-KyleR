@@ -3,7 +3,8 @@
 const fs = require('fs');
 function generateRandomUrl() {
     let url = '';
-    const words = fs.readFileSync('/usr/share/dict/words', 'utf8')
+    // const words = fs.readFileSync('/usr/share/dict/words', 'utf8')
+    const words = fs.readFileSync('/etc/dictionaries-common/words', 'utf8')
         .split('\n')
         .filter(function (word) {
             return /^[a-z]*$/.test(word);
