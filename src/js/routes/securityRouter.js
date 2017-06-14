@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const {Security} = require('../schemas/securitySchema');
-const {generateRandomUrl, validateFields} = require('../helpers');
+const {validateFields} = require('../helpers');
 
 export const router = express.Router();
 router.use(morgan('common'));
@@ -24,9 +24,9 @@ router.get('/', function(req, res) {
         });
 });
 
-router.get('/:id', function(req, res) {
+router.get('/:link', function(req, res) {
     Security
-        .find({id: req.params.id})
+        .find({link: req.params.link})
         .then(function(item) {
             res.json(item);
         })
@@ -35,9 +35,10 @@ router.get('/:id', function(req, res) {
         });
 });
 
-router.post('/:id', function(req, res) {
+router.post('/', function(req, res) {
     const valid = validateFields(
         {
+                'link': String(),
                 'symbol': String(),
                 'name': String(),
                 'initialPrice': String(),
@@ -51,6 +52,7 @@ router.post('/:id', function(req, res) {
 
     Security
         .create({
+            link: req.body.link,
             symbol: req.body.symbol,
             name: req.body.name,
             initialPrice: req.body.initialPrice,
@@ -66,14 +68,12 @@ router.post('/:id', function(req, res) {
         });
 });
 
-router.put('/:id', function(req, res) {
+router.put('/:link', function(req, res) {
     Security
         // new: true => returns the updated object
         .findOneAndUpdate(
-            {link: req.params.id}, 
+            {link: req.params.link, symbol: req.body.symbol}, 
             {$set : {
-                symbol: req.body.symbol,
-                name: req.body.name,
                 currentPrice: req.body.currentPrice,
                 numShare: req.body.numShare
                 }
@@ -85,9 +85,9 @@ router.put('/:id', function(req, res) {
         });
 });
 
-router.delete('/:id', function(req, res) {
+router.delete('/:link', function(req, res) {
     Security
-        .findByIdAndRemove(req.params.id)
+        .findOneAndRemove({link: req.params.link, symbol: req.body.symbol})
         .exec()
         .then(() => {
           console.log(`Deleted security with id ${req.params.ID}`);
