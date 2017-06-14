@@ -7,16 +7,20 @@
   <link rel="stylesheet" href="src/css/theme.css">
   <link rel="stylesheet" href="src/css/bootstrap-min.css">
   <link rel="stylesheet" href="src/css/jumbotron-narrow.css">
-  <title>Document</title>
+  <title>Bull Trader</title>
 </head>
   <body>
       <div class="jumbotron"> 
         <h1>Bull Trader</h1>
         <form class="create-port">
-          <label for="exampleUsername">Portfolio Name</label>
-          <input required type="text" class="username" minlength="5" placeholder="e.g. Rick's Portfolio">
-          <label for="exampleAcctValue">Starting Investment Amount</label>
-          <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 100000">
+          <div class="form-group">
+            <label for="exampleUsername">Portfolio Name</label>
+            <input required type="text" class="username" minlength="5" placeholder="e.g. Rick's Portfolio">
+          </div>
+          <div class="form-group">
+            <label for="exampleAcctValue">Starting Investment Amount</label>
+            <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 100000">
+          </div>
           <button id="createbutton" class="btn btn-lg btn-success" type="submit">Create Portfolio</button>
         </form>
       </div>
