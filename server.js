@@ -6,15 +6,22 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const {TEST_DATABASE_URL, PORT} = require('./config/config');
-const {portfolioRouter} = require('./src/js/routes/portfolioRouter');
-const {securityRouter} = require('./src/js/routes/securityRouter');
+const portfolioRouter = require('./src/js/routes/portfolioRouter');
+const securityRouter = require('./src/js/routes/securityRouter');
+const apiRouter = require('./src/js/routes/apiRouter');
 
 const app = express();
 app.use('/portfolio', portfolioRouter);
 app.use('/security', securityRouter);
+app.use('/api', apiRouter);
 
 app.use(morgan('common'));
 app.use(bodyParser.json());
+app.use(express.static('src'));
+
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/src/html/index.html');
+});
 
 app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});

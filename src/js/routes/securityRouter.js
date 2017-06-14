@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const {Security} = require('../schemas/securitySchema');
 const {validateFields} = require('../helpers');
 
-export const router = express.Router();
+const router = express.Router();
 router.use(morgan('common'));
 router.use(bodyParser.json());
 
@@ -95,3 +95,4 @@ router.delete('/:link', function(req, res) {
         });
 });
 
+module.exports = router;

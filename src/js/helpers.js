@@ -1,5 +1,5 @@
 const fs = require('fs');
-export function generateRandomUrl() {
+function generateRandomUrl() {
     let url = '';
     const words = fs.readFileSync('/etc/dictionaries-common/words', 'utf8')
                 .split('\n')
@@ -15,7 +15,7 @@ export function generateRandomUrl() {
     return url;
 }
 
-export function validateFields(givenFields, requiredFields) {
+function validateFields(givenFields, requiredFields) {
     // if (Object.keys(givenFields).length === 0) return {error: "Empty request."};
 
     for (const requiredItem of Object.keys(requiredFields)) {
@@ -30,4 +30,4 @@ export function validateFields(givenFields, requiredFields) {
     return true;
 }
 
-// module.exports = {generateRandomUrl, validateFields};
+module.exports = {generateRandomUrl, validateFields};

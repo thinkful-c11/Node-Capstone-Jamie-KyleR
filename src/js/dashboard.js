@@ -1,23 +1,20 @@
+/* global $ */
 'use strict';
-const {API_KEY} = require('./.env');
-
 const appState = {
   accountValue: null,
   securities: []
 };
 
-
-let barchartURl = 'http://marketdata.websol.barchart.com/getQuote.json';
-
-function getDataFromAPI (ticker, callback) {
-  let query = {
-    q: ticker,
-    mode: 'i',
-    api_key: API_KEY
-  };
-
-  $.getJSON(barchartURl, query, function(response) {
-    const stockInfo = response.results.map(element => appState.securities.push({ticker: element.symbol, name: element.name, price: element.lastPrice}));
+function getDataFromAPI (ticker) {
+  $.getJSON('/api', {symbol: ticker}, function(response) {
+    response.results.map(element => 
+      appState.securities.push(
+        {
+          ticker: element.symbol, 
+          name: element.name, 
+          price: element.lastPrice
+        }
+      ));
   });
 }
 

@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const {Portfolio} = require('../schemas/portfolioSchema');
 const {generateRandomUrl, validateFields} = require('../helpers');
 
-export const router = express.Router();
+const router = express.Router();
 router.use(morgan('common'));
 router.use(bodyParser.json());
 
@@ -80,3 +80,5 @@ router.put('/:link', function(req, res) {
             res.status(201).json(updatedPortfolio);
         });
 });
+
+module.exports = router;
