@@ -2,19 +2,19 @@
 'use strict';
 const appState = {
   accountValue: null,
-  securities: []
+  securities: {}
 };
 
 function getDataFromAPI (ticker) {
   $.getJSON('/api', {symbol: ticker}, function(response) {
     response.results.map(element => 
-      appState.securities.push(
+      appState.securities[element.symbol] = 
         {
           ticker: element.symbol, 
           name: element.name, 
           price: element.lastPrice
         }
-      ));
+      );
   });
 }
 

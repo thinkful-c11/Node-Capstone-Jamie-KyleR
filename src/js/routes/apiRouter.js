@@ -2,7 +2,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const https = require('https');
+const fetch = require('node-fetch');
 
 const router = express.Router();
 router.use(morgan('common'));
@@ -10,19 +10,19 @@ router.use(bodyParser.json());
 
 const {API_KEY} = process.env; 
 
-const barchartURl = 'https://marketdata.websol.barchart.com/getQuote.json';
+const barchartUrl = 'https://marketdata.websol.barchart.com/getQuote.json'
+                    + `?key=${API_KEY}&mode=i&symbols=`
 
 router.get('/', function(req, res) {
-    const options = {
-        api_key: API_KEY,
-        mode: 'i',
-        symbols: req.body.symbol
-    };
-    
-    https.get(barchartURl, options, function(apiData) {
-        console.log(apiData);
-        res.json(apiData);
-    });
+    // needs validation
+    // https.get(barchartUrl + req.body.symbol, function(apiData) {
+    //     console.log(apiData);
+    //     res.json(apiData);
+    // });
+    console.log(req.params)
+    fetch(barchartUrl + req.query.symbol)
+    .then(temp =>  temp.json())
+    .then(data => res.json(data));
 });
 
 module.exports = router;
