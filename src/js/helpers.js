@@ -1,5 +1,5 @@
 const fs = require('fs');
-function generateRandomUrl() {
+export function generateRandomUrl() {
     let url = '';
     const words = fs.readFileSync('/etc/dictionaries-common/words', 'utf8')
                 .split('\n')
@@ -8,28 +8,26 @@ function generateRandomUrl() {
                 });
                
     for (let i = 0; i < 3; i++) {
-        let temp = words[Math.floor(Math.random() * words.length)].toLowerCase();
+        let temp = words[Math.floor(Math.random() * words.length)];
+        // capitalize first letter
         url += temp.charAt(0).toUpperCase() + temp.slice(1);
     }
     return url;
 }
 
-function validateFields(requiredFields, givenFields) {
-    if (Object.keys(givenFields).length === 0) return {error: "Empty request."};
+export function validateFields(givenFields, requiredFields) {
+    // if (Object.keys(givenFields).length === 0) return {error: "Empty request."};
 
-    for (let i = 0, l = Object.keys(requiredFields).length; i < l; i++) {
-        const givenItem = Object.keys(givenFields)[i];
-        const requiredItem = Object.keys(requiredFields)[i];
-
-        if (!(Object.keys(givenFields).includes(requiredItem))) {
-            return {error: `Missing ${Object.keys(requiredFields)[i]} in request.`};
+    for (const requiredItem of Object.keys(requiredFields)) {
+        if (!(requiredItem in givenFields)) {
+            return {error: `Missing ${requiredItem} in request.`};
         }
 
-        if (typeof requiredFields[requiredItem] !== typeof givenFields[givenItem]) {
-            return {error: `${Object.keys(requiredFields)[i]} is the wrong type.`};
+        if (typeof requiredFields[requiredItem] !== typeof givenFields[requiredItem]) {
+            return {error: `${requiredItem} is the wrong type.`};
         }
     }
     return true;
 }
 
-module.exports = {generateRandomUrl, validateFields};
+// module.exports = {generateRandomUrl, validateFields};

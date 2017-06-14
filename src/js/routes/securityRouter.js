@@ -8,8 +8,69 @@ const bodyParser = require('body-parser');
 const {Security} = require('../schemas/securitySchema');
 const {generateRandomUrl, validateFields} = require('../helpers');
 
-const router = express.Router();
+export const router = express.Router();
 router.use(morgan('common'));
 router.use(bodyParser.json());
 
-module.exports = router;
+//REMOVE IN PRODUCTION
+router.get('/', function(req, res) {
+    Security
+        .find()
+        .then(function(allSecurities) {
+            res.json(allSecurities);
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+});
+
+router.get('/:id', function(req, res) {
+    Security
+        .find({id: req.params.id})
+        .then(function(item) {
+            res.json(item);
+        })
+        .catch(function() {
+            res.status(404).json({error: 'Not Found'});
+        });
+});
+
+router.post('/:id', function(req, res) {
+    const valid = validateFields(
+        {
+                'symbol': String(),
+                'name': String(),
+                'initialPrice': String(),
+                'numShare': Number()
+        }, 
+        req.body);
+    
+    if (valid.error) {
+        return res.status(400).json({response: valid.error});
+    }
+
+    Security
+        .create({
+            symbol: req.body.symbol,
+            name: req.body.name,
+            initialPrice: req.body.initialPrice,
+            currentPrice: req.body.initialPrice,
+            numShare: req.body.numShare
+        })
+        .then(function(item) {
+            res.json(item);
+        })
+        .catch(function(err) {
+            console.error(err);
+            res.status(500).json({error: "Something went wrong"});
+        });
+});
+
+router.put('/:id', function(req, res) {
+    
+});
+
+router.delete('/:id', function(req, res) {
+    
+});
+

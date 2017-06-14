@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const {Portfolio} = require('../schemas/portfolioSchema');
 const {generateRandomUrl, validateFields} = require('../helpers');
 
-const router = express.Router();
+export const router = express.Router();
 router.use(morgan('common'));
 router.use(bodyParser.json());
 
@@ -16,8 +16,8 @@ router.use(bodyParser.json());
 router.get('/', function(req, res) {
     Portfolio
         .find()
-        .then(function(portfolios) {
-            res.json(portfolios);
+        .then(function(allPortfolios) {
+            res.json(allPortfolios);
         })
         .catch(function(err) {
             console.error(err);
@@ -28,6 +28,7 @@ router.get('/:link', function(req, res) {
     Portfolio
         .find({link: req.params.link})
         .then(function(item) {
+            
             res.json(item);
         })
         .catch(function() {
@@ -36,12 +37,11 @@ router.get('/:link', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    const valid = validateFields(
+    const valid = validateFields(req.body,
         {
             'name': String(), 
             'value': Number()
-        }, 
-        req.body);
+        });
     
     if (valid.error) {
         return res.status(400).json({response: valid.error});
@@ -80,5 +80,3 @@ router.put('/:link', function(req, res) {
             res.status(201).json(updatedPortfolio);
         });
 });
-
-module.exports = router;
