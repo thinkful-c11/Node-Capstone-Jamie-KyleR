@@ -18,5 +18,4 @@ function createPortfolio(name, value) {
       window.location = '/portfolio/' + data;
     }
   });
-
 }
