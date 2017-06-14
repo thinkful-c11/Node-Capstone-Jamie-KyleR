@@ -67,10 +67,31 @@ router.post('/:id', function(req, res) {
 });
 
 router.put('/:id', function(req, res) {
-    
+    Security
+        // new: true => returns the updated object
+        .findOneAndUpdate(
+            {link: req.params.id}, 
+            {$set : {
+                symbol: req.body.symbol,
+                name: req.body.name,
+                currentPrice: req.body.currentPrice,
+                numShare: req.body.numShare
+                }
+            },
+            {new: true}
+        )
+        .then(function(updatedSecurity) {
+            res.status(201).json(updatedSecurity);
+        });
 });
 
 router.delete('/:id', function(req, res) {
-    
+    Security
+        .findByIdAndRemove(req.params.id)
+        .exec()
+        .then(() => {
+          console.log(`Deleted security with id ${req.params.ID}`);
+          res.status(204).end();
+        });
 });
 

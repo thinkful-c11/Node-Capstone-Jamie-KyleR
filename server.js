@@ -6,8 +6,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const {TEST_DATABASE_URL, PORT} = require('./config/config');
-const portfolioRouter = require('./src/js/routes/portfolioRouter');
-const securityRouter = require('./src/js/routes/securityRouter');
+const {portfolioRouter} = require('./src/js/routes/portfolioRouter');
+const {securityRouter} = require('./src/js/routes/securityRouter');
 
 const app = express();
 app.use('/portfolio', portfolioRouter);
