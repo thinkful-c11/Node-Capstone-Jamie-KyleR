@@ -15,9 +15,9 @@ router.use(bodyParser.json());
 // REMOVE IN PRODUCTION
 router.get('/', function(req, res) {
     Portfolio
-        .find()
-        .then(function(allPortfolios) {
-            res.json(allPortfolios);
+        .find({name: req.body.name})
+        .then(function(portfolio) {
+            res.json(portfolio);
         })
         .catch(function(err) {
             console.error(err);

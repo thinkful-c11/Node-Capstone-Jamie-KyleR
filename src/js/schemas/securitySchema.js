@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const securitySchema = mongoose.Schema({
+    link: String,
     symbol: String,
     name: String,
     initialPrice: Number,
