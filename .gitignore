@@ -1,4 +1,6 @@
 node_modules
 npm-debug.log
-.env
+
+*.env
 *.txt
+>>>>>>> 72d4e575a2d8956c7be4c436dead37ee0e6b8b12
