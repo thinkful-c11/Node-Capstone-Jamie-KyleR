@@ -7,9 +7,8 @@ const faker = require('faker');
 
 const should = chai.should();
 
-const{Portfolio} = require('../src/js/schemas/portfolioSchema');
+const{Security} = require('../src/js/schemas/portfolioSchema');
 const {generateRandomUrl} = require('../src/js/helpers');
-const {generateSecuritiesData} = require('./test-security');
 const {app, runServer, closeServer} = require('../server');
 const router = require('../src/js/routes/portfolioRouter');
 
@@ -19,25 +18,27 @@ const dirname = __dirname.split('/').slice(0, -3).join('/');
 chai.use(chaiHttp);
 chai.use(require('chai-moment'));
 
-function seedPortfolioData() {
-  console.info('seeding portfolio data');
+function seedSecuritiesData() {
+  console.info('seeding securities data');
   const seedData = [];
 
   for (let i = 1; i <= 1; i++) {
-    seedData.push(generatePortfolioData());
+    seedData.push(generateSecuritiesData());
   }
   // this will return a promise
-  return Portfolio.insertMany(seedData);
+  return Security.insertMany(seedData);
 }
 
-function generatePortfolioData() {
+function generateSecuritiesData(portfolioLink) {
   return {
-    link: generateRandomUrl(),
-    name: faker.name.firstName() + ' ' + faker.name.lastName(),
-    value: faker.random.number({min: 100000, max: 10000000})
+    link: portfolioLink || generateRandomUrl(),
+    symbol: faker.address.city(),
+    name: faker.company.companyName(),
+    initialPrice: faker.random.number({min: 1, max: 500}),
+    // currentPrice: faker.random.number({min: 1, max: 500}),
+    numShare: faker.random.number({min:1, max: 500})
   };
 }
-
 
 
 function tearDownDb() {
@@ -52,7 +53,7 @@ describe('Portfolio API resource', function () {
   });
 
   beforeEach(function () {
-    return seedPortfolioData();
+    return seedSecuritiesData();
   });
 
   // afterEach(function () {
@@ -64,7 +65,7 @@ describe('Portfolio API resource', function () {
   });
 
 
-  describe('GET endpoint', function () {
+  describe.skip('GET endpoint', function () {
     it('should return portfolios with right fields', function () {
       // Strategy: Get back portfolio, and ensure it has expected keys
       return Portfolio
@@ -82,40 +83,38 @@ describe('Portfolio API resource', function () {
     });
   });
 
-  describe.only('POST endpoint', function () {
+  describe.skip('POST endpoint', function () {
 
     it('should add a new security to portfolio', function () {
-      return Portfolio
-        .find()
-        .exec()
-        .then(res => {
-          let url = res[0].link;
-          const newSecurity = generateSecuritiesData(url);
-          return chai.request(app)
-          .post('/security')
-          .send(newSecurity);
-        })
+      const newPortfolio = generatePortfolioData();
+    
+      return chai.request(app)
+        .post('/')
+        .send(newPortfolio)
         .then(function (res) {
-          res.should.have.status(200);
-          console.log('should be portfolio object', res);
+          res.should.have.status(201);
           res.should.be.json;
           res.body.should.be.a('object');
           res.body.should.include.keys(
-            'id', 'link', 'symbol', 'name', 'initialPrice', 'currentPrice', 'numShare');
+            'id', 'link', 'name', 'value');
+          res.body.link.should.equal(newPortfolio.link);
+          // cause Mongo should have created id on insertion
           res.body.id.should.not.be.null;
-          res.body.name.should.equal(${newSecurity.name});
-          res.body.value.should.equal(newSecurity.value);
+          res.body.name.should.equal(newPortfolio.name);
+          res.body.value.should.equal(newPortfolio.value);
           createdAt = res.body.created;
-          return Security.findById(res.body.id);
-        // })
-        // .then(function (portfolio) {
-        //   portfolio.title.should.equal(newPortfolio.title);
-        //   portfolio.content.should.equal(newPortfolio.content);
-        //   portfolio.author.firstName.should.equal(newPortfolio.author.firstName);
-        //   portfolio.created.should.be.sameMoment(createdAt);
+          return Portfolio.findById(res.body.id);
+        })
+        .then(function (portfolio) {
+          portfolio.title.should.equal(newPortfolio.title);
+          portfolio.content.should.equal(newPortfolio.content);
+          portfolio.author.firstName.should.equal(newPortfolio.author.firstName);
+          portfolio.created.should.be.sameMoment(createdAt);
         });
     });
   });
 
 
 }); //closing describe 
+
+module.exports = {generateSecuritiesData};

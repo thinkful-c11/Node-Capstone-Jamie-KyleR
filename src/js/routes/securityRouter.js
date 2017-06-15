@@ -14,79 +14,80 @@ router.use(bodyParser.json());
 
 //REMOVE IN PRODUCTION
 router.get('/', function(req, res) {
-    Security
+  Security
         .find()
         .then(function(allSecurities) {
-            res.json(allSecurities);
+          res.json(allSecurities);
         })
         .catch(function(err) {
-            console.error(err);
+          console.error(err);
         });
 });
 
 router.get('/:link', function(req, res) {
-    Security
+  Security
         .find({link: req.params.link})
         .then(function(item) {
-            res.json(item);
+          res.json(item);
         })
         .catch(function() {
-            res.status(404).json({error: 'Not Found'});
+          res.status(404).json({error: 'Not Found'});
         });
 });
 
 router.post('/', function(req, res) {
-    const valid = validateFields(
-        {
-                'link': String(),
-                'symbol': String(),
-                'name': String(),
-                'initialPrice': String(),
-                'numShare': Number()
-        }, 
+  const valid = validateFields(
+    {
+      'link': String(),
+      'symbol': String(),
+      'name': String(),
+      'initialPrice': Number(),
+      'numShare': Number()
+    }, 
         req.body);
     
-    if (valid.error) {
-        return res.status(400).json({response: valid.error});
-    }
+  if (valid.error) {
+    console.log(valid.error);
+    return res.status(400).json({response: valid.error});
+  }
 
-    Security
+  Security
         .create({
-            link: req.body.link,
-            symbol: req.body.symbol,
-            name: req.body.name,
-            initialPrice: req.body.initialPrice,
-            currentPrice: req.body.initialPrice,
-            numShare: req.body.numShare
+          link: req.body.link,
+          symbol: req.body.symbol,
+          name: req.body.name,
+          initialPrice: req.body.initialPrice,
+          currentPrice: req.body.initialPrice,
+          numShare: req.body.numShare
         })
         .then(function(item) {
-            res.json(item);
+          res.json(item);
         })
         .catch(function(err) {
-            console.error(err);
-            res.status(500).json({error: "Something went wrong"});
+          console.error(err);
+          res.status(500).json({error: 'Something went wrong'});
         });
 });
 
 router.put('/:link', function(req, res) {
-    Security
+  Security
         // new: true => returns the updated object
         .findOneAndUpdate(
             {link: req.params.link, symbol: req.body.symbol}, 
-            {$set : {
-                currentPrice: req.body.currentPrice,
-                numShare: req.body.numShare
-                }
-            },
+    {$set : {
+      currentPrice: req.body.currentPrice,
+      numShare: req.body.numShare
+    }
+    },
             {new: true}
         )
         .then(function(updatedSecurity) {
-            res.status(201).json(updatedSecurity);
+          res.status(201).json(updatedSecurity);
         });
 });
 
 router.delete('/:link', function(req, res) {
-    Security
+  Security
         .findOneAndRemove({link: req.params.link, symbol: req.body.symbol})
         .exec()
         .then(() => {
