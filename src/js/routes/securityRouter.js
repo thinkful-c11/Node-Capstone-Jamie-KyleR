@@ -41,13 +41,12 @@ router.post('/', function(req, res) {
       'link': String(),
       'symbol': String(),
       'name': String(),
-      'initialPrice': Number(),
-      'numShare': Number()
+      'initialPrice': String(),
+      'numShares': Number()
     }, 
         req.body);
     
   if (valid.error) {
-    console.log(valid.error);
     return res.status(400).json({response: valid.error});
   }
 
@@ -58,7 +57,7 @@ router.post('/', function(req, res) {
           name: req.body.name,
           initialPrice: req.body.initialPrice,
           currentPrice: req.body.initialPrice,
-          numShare: req.body.numShare
+          numShares: req.body.numShares
         })
         .then(function(item) {
           res.json(item);
@@ -69,14 +68,14 @@ router.post('/', function(req, res) {
         });
 });
 
-router.put('/:link', function(req, res) {
+router.put('/', function(req, res) {
   Security
         // new: true => returns the updated object
         .findOneAndUpdate(
-            {link: req.params.link, symbol: req.body.symbol}, 
+            {link: req.body.link, symbol: req.body.symbol}, 
     {$set : {
       currentPrice: req.body.currentPrice,
-      numShare: req.body.numShare
+      numShares: req.body.numShares
     }
     },
             {new: true}
