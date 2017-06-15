@@ -68,11 +68,11 @@ router.post('/', function(req, res) {
         });
 });
 
-router.put('/:link', function(req, res) {
+router.put('/', function(req, res) {
   Security
         // new: true => returns the updated object
         .findOneAndUpdate(
-            {link: req.params.link, symbol: req.body.symbol}, 
+            {link: req.body.link, symbol: req.body.symbol}, 
     {$set : {
         currentPrice: req.body.currentPrice,
         numShares: req.body.numShares

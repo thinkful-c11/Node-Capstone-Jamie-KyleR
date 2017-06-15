@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 
 const { Portfolio } = require('../schemas/portfolioSchema');
-const { generateRandomUrl, validateFields } = require('../helpers');
+const { generateRandomUrl, validateFields, addPortfolioDataToFile } = require('../helpers');
 
 const router = express.Router();
 router.use(morgan('common'));
@@ -33,13 +33,7 @@ router.get('/:link', function (req, res) {
         .find({ link: req.params.link })
         .select('-_id link name value')
         .then(function (item) {
-          if (item.length === 0) {
-            throw new Error;
-          }
-          const data = fs.readFileSync(dirname + '/src/html/portfolioview.html', 'utf-8');
-          console.log("Type of data from file read: ", typeof data);
-          const script = `<script>const portfolio = ${item}</script>`;
-          res.send(data.replace('<replace></replace>', script));
+          res.send(addPortfolioDataToFile('/src/html/portfolioview.html', item));
         })
         .catch(function (err) {
           console.error(err);
@@ -47,10 +41,18 @@ router.get('/:link', function (req, res) {
         });
 });
 
-// router.get('/:link/query', function(req, res) {
-//   Portfolio
-//     .find({ link:})
-// })
+router.get('/:link/trade', function(req, res) {
+  Portfolio
+      .find({ link: req.params.link })
+      .select('-_id link name value')
+      .then(function (item) {
+        res.send(addPortfolioDataToFile('/src/html/trade.html', item));
+      })
+      .catch(function (err) {
+        console.error(err);
+        res.status(404).json({ error: 'Not Found' });
+      });
+});
 
 router.post('/', function (req, res) {
   const valid = validateFields(req.body,
