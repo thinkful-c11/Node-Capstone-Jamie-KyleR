@@ -138,5 +138,36 @@ describe('Portfolio API resource', function () {
     });
   });
 
+  describe.skip('DELETE endpoint', function () {
+    // strategy:
+    //  1. get a restaurant
+    //  2. make a DELETE request for that restaurant's id
+    //  3. assert that response has right status code
+    //  4. prove that restaurant with the id doesn't exist in db anymore
+    it('delete a blog by id', function () {
+
+      let blog;
+
+      return Portfolio
+        .findOne()
+        .exec()
+        .then(function (_blog) {
+          blog = _blog;
+          return chai.request(app).delete(`/blogs/${blog.id}`);
+        })
+        .then(function (res) {
+          res.should.have.status(204);
+          return Blog.findById(blog.id).exec();
+        })
+        .then(function (_blog) {
+          // when a variable's value is null, chaining `should`
+          // doesn't work. so `_restaurant.should.be.null` would raise
+          // an error. `should.be.null(_restaurant)` is how we can
+          // make assertions about a null value.
+          should.not.exist(_blog);
+        });
+    });
+  });
+
 
 }); //closing describe 
