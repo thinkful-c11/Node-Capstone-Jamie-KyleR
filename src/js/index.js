@@ -1,3 +1,4 @@
+/* global $ */
 'use strict';
 
 $('.create-port').submit(function (event) {

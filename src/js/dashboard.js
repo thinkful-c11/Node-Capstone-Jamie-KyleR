@@ -34,12 +34,3 @@ function setSecurities(state) {
     response.forEach(item => state.securities.push(item));
   });
 }
-
-
-
-
-
-
-
-
-
