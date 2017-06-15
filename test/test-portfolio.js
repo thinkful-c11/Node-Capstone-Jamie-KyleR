@@ -79,7 +79,7 @@ describe('Portfolio API resource', function () {
         });
     });
 
-    it('should return portfolios with right fields', function () {
+    it.only('should return portfolios with right fields', function () {
       // Strategy: Get back portfolio, and ensure it has expected keys
       let resPortfolio;
       Portfolio
@@ -92,7 +92,7 @@ describe('Portfolio API resource', function () {
         })
         .then(function (res) {
           res.should.have.status(200);
-          res.should.be;
+          console.log(res);
           
 
           res.body.blogs.forEach(function (blog) {
