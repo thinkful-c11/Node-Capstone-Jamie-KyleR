@@ -1,15 +1,10 @@
-/* global $ portfolio*/
+/* global $ portfolio setDashboard */
 $(document).ready(function() {
-    $('#portfolio-name').html(portfolio.name);
-    $('#portfolio-value').html(formatMoney(portfolio.value));
-    displaySecurities();
+    setDashboard();
+    displayOwnedSecurities();
 });
 
-function formatMoney(m) {
-    /* 100000 => $100,000 */
-    return '$' + String(m).match(/.{1,3}/g).join(',');
-}
-
+// retrieves all of the current portfolio's securities
 async function querySecurities() {
     return await $.ajax({
         type: 'GET',
@@ -19,9 +14,9 @@ async function querySecurities() {
             return data;
         }
     });
-}
+};
 
-function displaySecurities() {
+function displayOwnedSecurities() {
     querySecurities()
     .then(function(data) {
         data.forEach(function(sec) {
@@ -104,62 +99,3 @@ function displaySecurities() {
         });
     });
 }
-        // <div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        //   <div class="modal-dialog" role="document">
-        //     <div class="modal-content">
-        //       <div class="modal-header">
-        //         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        //         <h4 class="modal-title" id="myModalLabel">Place Trade</h4>
-        //       </div>
-        //       <div class="modal-body">
-        //         <h4>IBM</h4>
-        //         <p class="share-price">Share Price: $45.00</p>
-        //         <p class="owned-shares">Number of Shares: 10</p>
-        //         <p class="owned-share-value">Total value: $450</p>
-        //         <p>
-        //           Shares to sell:
-        //           <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 10">
-        //         </p>
-        //           <label>
-        //             <input type="checkbox"> Sell all
-        //           </label>
-        //         <p class="total-sell-amt">Total: </p>
-        //       </div>
-        //       <div class="modal-footer">
-        //         <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
-        //         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-        //       </div>
-        //     </div>
-        //   </div>
-        // </div>
-
-        // <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        //   <div class="modal-dialog" role="document">
-        //     <div class="modal-content">
-        //       <div class="modal-header">
-        //         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        //         <h4 class="modal-title" id="myModalLabel">Place Trade</h4>
-        //       </div>
-        //       <div class="modal-body">
-        //         <h4>IBM</h4>
-        //         <p class="share-price">Share Price: $45.00</p>
-        //         <p class="owned-shares">Number of Shares: 10</p>
-        //         <p class="owned-share-value">Total value: $450</p>
-        //         <p>
-        //           Shares to buy:
-        //           <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 10">
-        //         </p>
-        //          <label>
-        //             <input type="checkbox"> Buy max
-        //           </label>
-        //         <p class="total-sell-amt">Total: </p>
-        //         <!--<p class="account-balance">Account total: </p>-->
-        //       </div>
-        //       <div class="modal-footer">
-        //         <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
-        //         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-        //       </div>
-        //     </div>
-        //   </div>
-        // </div>
-

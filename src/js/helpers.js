@@ -37,7 +37,6 @@ function addPortfolioDataToFile(file, portfolioData) {
   if (portfolioData.length === 0) {
     throw new Error;
   }
-  console.log(__dirname)
   const dirname = __dirname.split('/').slice(0, -2).join('/');
   const data = fs.readFileSync(dirname + file, 'utf-8');
   const script = `<script>const portfolio = ${portfolioData}</script>`;
