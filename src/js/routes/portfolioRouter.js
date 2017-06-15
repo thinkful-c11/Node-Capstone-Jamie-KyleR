@@ -33,6 +33,9 @@ router.get('/:link', function (req, res) {
         .find({ link: req.params.link })
         .select('-_id link name value')
         .then(function (item) {
+          if (item.length === 0) {
+            throw new Error;
+          }
           const data = fs.readFileSync(dirname + '/src/html/portfolioview.html', 'utf-8');
           console.log("Type of data from file read: ", typeof data);
           const script = `<script>const portfolio = ${item}</script>`;

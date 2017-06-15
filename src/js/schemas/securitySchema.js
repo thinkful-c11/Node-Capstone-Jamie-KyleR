@@ -6,7 +6,7 @@ const securitySchema = mongoose.Schema({
     name: String,
     initialPrice: Number,
     currentPrice: Number,
-    numShare: Number
+    numShares: Number
 });
 
 const Security = mongoose.model('Security', securitySchema);

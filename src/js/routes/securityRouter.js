@@ -42,7 +42,7 @@ router.post('/', function(req, res) {
       'symbol': String(),
       'name': String(),
       'initialPrice': String(),
-      'numShare': Number()
+      'numShares': Number()
     }, 
         req.body);
     
@@ -57,7 +57,7 @@ router.post('/', function(req, res) {
           name: req.body.name,
           initialPrice: req.body.initialPrice,
           currentPrice: req.body.initialPrice,
-          numShare: req.body.numShare
+          numShares: req.body.numShares
         })
         .then(function(item) {
           res.json(item);
@@ -75,7 +75,7 @@ router.put('/:link', function(req, res) {
             {link: req.params.link, symbol: req.body.symbol}, 
     {$set : {
         currentPrice: req.body.currentPrice,
-        numShare: req.body.numShare
+        numShares: req.body.numShares
       }
     },
             {new: true}
