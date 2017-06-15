@@ -14,7 +14,7 @@ router.use(bodyParser.json());
 router.use(express.static('src'));
 
 const dirname = __dirname.split('/').slice(0, -3).join('/');
-console.log(dirname)
+console.log(dirname);
 
 // REMOVE IN PRODUCTION
 router.get('/', function (req, res) {
@@ -41,15 +41,15 @@ router.get('/:link', function (req, res) {
 
 router.post('/', function (req, res) {
   const valid = validateFields(req.body,
-      {
-        'name': String(),
-        'value': Number()
-      });
-      console.log("this is our body", req.body);
+    {
+      'name': String(),
+      'value': Number()
+    });
+  console.log('this is our body', req.body);
   if (valid.error) {
-      console.error(valid.error);
-      return res.status(400).json({ response: valid.error });
-    }
+    console.error(valid.error);
+    return res.status(400).json({ response: valid.error });
+  }
 
 
   Portfolio
