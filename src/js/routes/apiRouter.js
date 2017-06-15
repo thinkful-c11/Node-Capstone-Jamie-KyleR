@@ -11,7 +11,7 @@ router.use(bodyParser.json());
 const {API_KEY} = process.env; 
 
 const barchartUrl = 'https://marketdata.websol.barchart.com/getQuote.json'
-                    + `?key=${API_KEY}&mode=i&symbols=`
+                    + `?key=${API_KEY}&mode=i&symbols=`;
 
 router.get('/', function(req, res) {
     fetch(barchartUrl + req.query.symbol)

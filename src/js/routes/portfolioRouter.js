@@ -51,15 +51,15 @@ router.get('/:link', function (req, res) {
 
 router.post('/', function (req, res) {
   const valid = validateFields(req.body,
-      {
-        'name': String(),
-        'value': Number()
-      });
-      console.log("this is our body", req.body);
+    {
+      'name': String(),
+      'value': Number()
+    });
+  console.log('this is our body', req.body);
   if (valid.error) {
-      console.error(valid.error);
-      return res.status(400).json({ response: valid.error });
-    }
+    console.error(valid.error);
+    return res.status(400).json({ response: valid.error });
+  }
 
 
   Portfolio
