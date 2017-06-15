@@ -82,7 +82,7 @@ describe('Portfolio API resource', function () {
     });
   });
 
-  describe.only('POST endpoint', function () {
+  describe('POST endpoint', function () {
 
     it('should add a new security to portfolio', function () {
       return Portfolio
@@ -97,22 +97,43 @@ describe('Portfolio API resource', function () {
         })
         .then(function (res) {
           res.should.have.status(200);
-          console.log('should be portfolio object', res);
           res.should.be.json;
           res.body.should.be.a('object');
+          //PLEASE NOTE - NEED TO UPDATE numShare TO numShares///
           res.body.should.include.keys(
-            'id', 'link', 'symbol', 'name', 'initialPrice', 'currentPrice', 'numShare');
-          res.body.id.should.not.be.null;
-          res.body.name.should.equal(${newSecurity.name});
-          res.body.value.should.equal(newSecurity.value);
-          createdAt = res.body.created;
-          return Security.findById(res.body.id);
-        // })
-        // .then(function (portfolio) {
-        //   portfolio.title.should.equal(newPortfolio.title);
-        //   portfolio.content.should.equal(newPortfolio.content);
-        //   portfolio.author.firstName.should.equal(newPortfolio.author.firstName);
-        //   portfolio.created.should.be.sameMoment(createdAt);
+            '__v', 'link', 'symbol', 'name', 'initialPrice', 'currentPrice', 'numShare', '_id');
+          res.body._id.should.not.be.null;
+        });
+    });
+  });
+
+  describe.only('PUT endpoint', function () {
+
+    it('should update securities data from buying or selling', function () {
+      //PLEASE NOTE numShare NEEDS TO BE CHANGED HERE//
+      const updateData = {
+        numShare: ' ',
+        currentPrice: ' ',
+      };
+
+      return Portfolio
+        .find()
+        .exec()
+        .then(function (security) {
+          updateData.symbol = security.symbol;
+
+          return chai.request(app)
+            .put(`/security/${security.link}`)
+            .send(updateData);
+        })
+        .then(function (res) {
+          res.should.have.status(204);
+
+          return Portfolio.findById(updateData.id).exec();
+        })
+        .then(function (security) {
+          security.numShare.should.equal(updateData.numShare);
+          security.currentPrice.should.equal(updateData.currentPrice);
         });
     });
   });
