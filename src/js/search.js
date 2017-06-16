@@ -120,7 +120,7 @@ function renderResults(security) {
         .parent()
         .find('.number-shares-to-buy')
         .children('input')
-        .val(accountVal / sharePrice);
+        .val(Math.floor(accountVal / sharePrice));
     } 
   });
 }
