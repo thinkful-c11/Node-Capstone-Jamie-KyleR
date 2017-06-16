@@ -57,7 +57,7 @@ function displayOwnedSecurities() {
                     </button>
                   </p>
                 </div>
-                <div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -86,7 +86,7 @@ function displayOwnedSecurities() {
           </div>
         </div>
 
-        <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-symbol=${sec.symbol} data-numShares=${sec.numShares} data-currentPrice=${sec.currentPrice} >
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -115,12 +115,16 @@ function displayOwnedSecurities() {
             </div>
           </div>
         </div>`
-            ).find('#buy-shares').click(function(event) {
-              updatePurchasedSecurities(portfolio.link, sec.symbol, sec.currentPrice, sec.numShares);
-            });
+            )
       });
 
-     
+    $('#buy-shares').click(function(event) {
+        const container = $(this).closest(".modal");
+        const sec = container[0].dataset;
+        updatePurchasedSecurities(portfolio.link, sec.symbol, sec.currentPrice, sec.numShares);
+      });
+      
+
 
       $('#buy-checkbox').change(function() {
         if ($(this).is(':checked')) {
