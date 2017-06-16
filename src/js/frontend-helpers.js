@@ -9,6 +9,10 @@ function formatMoney(m) {
                         currency: 'USD' });
 }
 
+function unFormatMoney(m) {
+  return Number(m.replace(/[^0-9\.]+/g,""));
+}
+
 
 ///this is setting the dashboard to name and values to equal what was submitted///
 function setDashboard() {
