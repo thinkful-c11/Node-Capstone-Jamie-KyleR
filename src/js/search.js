@@ -65,7 +65,7 @@ function renderResults(security) {
               <div class="modal-body">
                 <h4>${security.symbol}</h4>
                 <p class="share-price">Share Price: ${security.lastPrice}</p>
-                <p>
+                <p class="number-shares-to-buy">
                   Shares to buy:
                   <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 10">
                 </p>
@@ -87,8 +87,8 @@ function renderResults(security) {
   </div>`
   ).find('#order-buy').click(function(event) {
     console.log('I have clicked Buy on Trade');
-    postPurchasedSecurityOnDashboard(portfolio.link, security.symbol, security.name, security.lastPrice);
-    //link, symbol, name, initialPrice, numShares
+    const numberShares = unFormatMoney($(this).parent().siblings('.modal-body').find('.accountvalue').val());
+    postPurchasedSecurityOnDashboard(portfolio.link, security.symbol, security.name, security.lastPrice, numberShares);
   });
   $('#short-sell').click(function(event) {
     console.log('I have clicked on short sell');
@@ -99,5 +99,18 @@ function renderResults(security) {
   $('input[type="checkbox"]').change(function() { 
     console.log(123);
   });
+  $('.accountvalue').change(function() {
+    if ($(this).is(':checked')) {
+      const accountVal = unFormatMoney($('body').find('#portfolio-value').text());
+      const sharePrice = unFormatMoney($(this).parent().siblings('.share-price').text().split(' ')[2]);
+      $(this)
+            .parent()
+            .siblings('#to-buy-input')
+            .children('input.accountvalue')
+            .val(Math.floor(accountVal / sharePrice));
+    } 
+  });
 }
+
+
 
