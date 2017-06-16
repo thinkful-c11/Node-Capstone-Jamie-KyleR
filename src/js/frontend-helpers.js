@@ -4,7 +4,9 @@
 ///this is formatting the money value into something that looks like funds///
 function formatMoney(m) {
     /* 100000 => $100,000 */
-  return '$' + String(m).match(/.{1,3}/g).join(',');
+    return m.toLocaleString('en-US', 
+                        { style: 'currency', 
+                        currency: 'USD' });
 }
 
 

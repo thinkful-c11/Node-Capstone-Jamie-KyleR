@@ -6,21 +6,17 @@ $(document).ready(function() {
     displayOwnedSecurities();
 });
 
-//retrieves all of the current portfolio's securities
-async function querySecurities() {
-    return await $.ajax({
-        type: 'GET',
-        url: `/security/${portfolio.link}`,
-        async: true,
-        success: function(data) {
-            return data;
-        }
-    });
-};
+// retrieves all of the current portfolio's securities
+function querySecurities() {
+    return fetch(`/security/${portfolio.link}`)
+        .then(res => res.json());
+}
 
 
 //displays owned securities on portfolio page//
 function displayOwnedSecurities() {
+    // $(this).closest(".info-box")
+    // data-id="..."
     querySecurities()
     .then(function(data) {
         data.forEach(function(sec) {
