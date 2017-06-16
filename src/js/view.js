@@ -118,13 +118,14 @@ function displayOwnedSecurities() {
             );
       });
 
-    $('#buy-shares').click(function(event) {
-        const container = $(this).closest(".modal");
+      $('#buy-shares').click(function(event) {
+        const container = $(this).closest('.modal');
         const sec = container[0].dataset;
         const requestedShares = $(this).closest('#buyModal').find('input.accountvalue').val();
         updatePurchasedSecurities(portfolio.link, sec.symbol, sec.currentprice, requestedShares);
       });
       
+
       $('#buy-checkbox').change(function() {
         if ($(this).is(':checked')) {
           const accountVal = unFormatMoney($('body').find('#portfolio-value').text());
