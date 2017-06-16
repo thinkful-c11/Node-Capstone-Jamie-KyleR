@@ -25,7 +25,7 @@ function updatePurchasedSecurities(link, symbol, currentPrice, numShares) {
       link: link,
       symbol: symbol,
       currentPrice: currentPrice,
-      numShares: numShares
+      numShares: +numShares
     }),
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
@@ -86,7 +86,7 @@ function displayOwnedSecurities() {
           </div>
         </div>
 
-        <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-symbol=${sec.symbol} data-numShares=${sec.numShares} data-currentPrice=${sec.currentPrice} >
+        <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-symbol=${sec.symbol} data-numshares=${sec.numShares} data-currentprice=${sec.currentPrice} >
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -121,7 +121,8 @@ function displayOwnedSecurities() {
       $('#buy-shares').click(function(event) {
         const container = $(this).closest('.modal');
         const sec = container[0].dataset;
-        updatePurchasedSecurities(portfolio.link, sec.symbol, sec.currentPrice, sec.numShares);
+        const requestedShares = $(this).closest('#buyModal').find('input.accountvalue').val();
+        updatePurchasedSecurities(portfolio.link, sec.symbol, sec.currentprice, requestedShares);
       });
       
 
