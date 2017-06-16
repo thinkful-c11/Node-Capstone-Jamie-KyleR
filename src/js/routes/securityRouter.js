@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const {Security} = require('../schemas/securitySchema');
-const {validateFields} = require('../helpers');
+const {validateFields, addPortfolioDataToFile} = require('../helpers');
 
 const router = express.Router();
 router.use(morgan('common'));
@@ -47,9 +47,10 @@ router.post('/', function(req, res) {
         req.body);
     
   if (valid.error) {
+    console.error(valid.error);
     return res.status(400).json({response: valid.error});
   }
-  
+  console.log(req.body)
   Security
         .create({
           link: req.body.link,
@@ -72,8 +73,19 @@ router.put('/', function(req, res) {
   Security
     .findOne({link: req.body.link, symbol: req.body.symbol})
     .then(security => {
-      console.log("Security", security)
-      console.log("req.body", req.body)
+      const updatedShares = security.numShares + req.body.numShares
+      Security.findOneAndUpdate(
+        {link: req.body.link, symbol: req.body.symbol},
+        {$set : {
+          currentPrice: req.body.currentPrice,
+          numShares: updatedShares
+        }},
+        {new : true}
+      )
+      .then(function(updatedSecurity) {
+        // should send file as a redirect
+        console.log(updatedSecurity);
+      });
     })
         // new: true => returns the updated object
     // .findOneAndUpdate(
