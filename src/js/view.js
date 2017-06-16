@@ -20,7 +20,7 @@ function displayOwnedSecurities() {
   querySecurities()
     .then(function(data) {
       data.forEach(function(sec) {
-          $('#securities-container').append(
+        $('#securities-container').append(
                 `<div class="info-box">
                   <div class="ticker"><h4>${sec.symbol}</h4></div>
                   <div class="ticker-name"><h4>${sec.name}</h4></div>
@@ -96,6 +96,6 @@ function displayOwnedSecurities() {
         </div>
                 `
             );
-        });
+      });
     });
 }

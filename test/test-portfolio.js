@@ -99,9 +99,8 @@ describe('Portfolio API resource', function () {
           res.should.have.status(200);
           res.should.be.json;
           res.body.should.be.a('object');
-          //PLEASE NOTE - NEED TO UPDATE numShare TO numShares///
           res.body.should.include.keys(
-            '__v', 'link', 'symbol', 'name', 'initialPrice', 'currentPrice', 'numShare', '_id');
+            '__v', 'link', 'symbol', 'name', 'initialPrice', 'currentPrice', 'numShares', '_id');
           res.body._id.should.not.be.null;
         });
     });
@@ -110,9 +109,8 @@ describe('Portfolio API resource', function () {
   describe.only('PUT endpoint', function () {
 
     it('should update securities data from buying or selling', function () {
-      //PLEASE NOTE numShare NEEDS TO BE CHANGED HERE//
       const updateData = {
-        numShare: ' ',
+        numShares: ' ',
         currentPrice: ' ',
       };
 
@@ -132,7 +130,7 @@ describe('Portfolio API resource', function () {
           return Portfolio.findById(updateData.id).exec();
         })
         .then(function (security) {
-          security.numShare.should.equal(updateData.numShare);
+          security.numShares.should.equal(updateData.numShares);
           security.currentPrice.should.equal(updateData.currentPrice);
         });
     });
