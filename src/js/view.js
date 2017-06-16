@@ -52,7 +52,7 @@ function displayOwnedSecurities() {
                 <p class="share-price">Share Price: $${sec.currentPrice}</p>
                 <p class="owned-shares">Number of Shares: ${sec.numShares}</p>
                 <p class="owned-share-value">Total value: $${sec.currentPrice * sec.numShares}</p>
-                <p>
+                <p id="to-sell-input">
                   Shares to sell:
                   <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 10">
                 </p>
@@ -110,6 +110,17 @@ function displayOwnedSecurities() {
             .siblings('#to-buy-input')
             .children("input.accountvalue")
             .val(Math.floor(accountVal / sharePrice));
+        } 
+      });
+      
+      $('#sell-checkbox').change(function() {
+        if ($(this).is(':checked')) {
+            const ownedShares = unFormatMoney($(this).parent().siblings(".owned-shares").text());
+            $(this)
+            .parent()
+            .siblings('#to-sell-input')
+            .children("input.accountvalue")
+            .val(ownedShares);
         } 
       });
     });
