@@ -38,8 +38,8 @@ function renderInvalidSecurity() {
     <span class="sr-only">Error:</span>
     That is not a valid security DUMBASS!!
   </div>`);
+}
 
-  
 function postPurchasedSecurityOnDashboard(link, symbol, name, initialPrice, numShares) {
   $.ajax({
     url: '/security',

@@ -17,6 +17,23 @@ function querySecurities() {
 }
 
 
+function updatePurchasedSecurities(link, symbol, currentPrice, numShares) {
+  $.ajax({
+    url: '/security',
+    type: 'PUT',
+    data: JSON.stringify({
+      link: link,
+      symbol: symbol,
+      currentPrice: currentPrice,
+      numShares: numShares
+    }),
+    dataType: 'json',
+    contentType: 'application/json; charset=utf-8',
+    success: 'success'
+  });
+}
+
+
 //displays owned securities on portfolio page//
 function displayOwnedSecurities() {
     // $(this).closest(".info-box")
@@ -92,36 +109,41 @@ function displayOwnedSecurities() {
                 <!--<p class="account-balance">Account total: </p>-->
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" id="buy-shares" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                <button type="button" id="cancel" class="btn btn-danger" data-dismiss="modal">Cancel</button>
               </div>
             </div>
           </div>
-        </div>
-                `
-            );
-        });
+        </div>`
+            ).find('#buy-shares').click(function(event) {
+              updatePurchasedSecurities(portfolio.link, sec.symbol, sec.currentPrice, sec.numShares);
+            });
+      });
+
+     
+
       $('#buy-checkbox').change(function() {
         if ($(this).is(':checked')) {
-            const accountVal = unFormatMoney($("body").find("#portfolio-value").text());
-            const sharePrice = unFormatMoney($(this).parent().siblings(".share-price").text().split(" ")[2]);
-            $(this)
+          const accountVal = unFormatMoney($('body').find('#portfolio-value').text());
+          const sharePrice = unFormatMoney($(this).parent().siblings('.share-price').text().split(' ')[2]);
+          $(this)
             .parent()
             .siblings('#to-buy-input')
-            .children("input.accountvalue")
+            .children('input.accountvalue')
             .val(Math.floor(accountVal / sharePrice));
         } 
       });
       
       $('#sell-checkbox').change(function() {
         if ($(this).is(':checked')) {
-            const ownedShares = unFormatMoney($(this).parent().siblings(".owned-shares").text());
-            $(this)
+          const ownedShares = unFormatMoney($(this).parent().siblings('.owned-shares').text());
+          $(this)
             .parent()
             .siblings('#to-sell-input')
-            .children("input.accountvalue")
+            .children('input.accountvalue')
             .val(ownedShares);
         } 
       });
+
     });
 }
