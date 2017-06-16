@@ -38,7 +38,7 @@ function renderInvalidSecurity() {
     <span class="sr-only">Error:</span>
     That is not a valid security DUMBASS!!
   </div>`);
-
+}
   
 function postPurchasedSecurityOnDashboard(link, symbol, name, initialPrice, numShares) {
   $.ajax({
@@ -82,9 +82,9 @@ function renderResults(security) {
                   Shares to buy:
                   <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 10">
                 </p>
-                  <label>
-                    <input type="checkbox"> Buy max
-                  </label>
+                <label>
+                  <input type="checkbox"> Buy max
+                </label>
                 <p class="total-sell-amt">Cost: </p>
                 <!--<p class="account-balance">Account balance: </p>-->
               </div>
@@ -109,18 +109,17 @@ function renderResults(security) {
   $('#cancel-order').click(function(event) {
     console.log('I have clicked on cancel');
   });
-  $('input[type="checkbox"]').change(function() { 
-    console.log(123);
-  });
-  $('.accountvalue').change(function() {
+  $('input[type="checkbox"]').change(function() {
     if ($(this).is(':checked')) {
       const accountVal = unFormatMoney($('body').find('#portfolio-value').text());
       const sharePrice = unFormatMoney($(this).parent().siblings('.share-price').text().split(' ')[2]);
+      console.log(accountVal, sharePrice);
       $(this)
-            .parent()
-            .siblings('#to-buy-input')
-            .children('input.accountvalue')
-            .val(Math.floor(accountVal / sharePrice));
+        .parent()
+        .parent()
+        .find('.number-shares-to-buy')
+        .children('input')
+        .val(accountVal / sharePrice);
     } 
   });
 }
