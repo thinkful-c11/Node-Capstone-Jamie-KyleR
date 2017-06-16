@@ -2,13 +2,13 @@
 'use strict';
 
 $(document).ready(function() {
-    setDashboard();
-    displayOwnedSecurities();
+  setDashboard();
+  displayOwnedSecurities();
 });
 
 // retrieves all of the current portfolio's securities
 function querySecurities() {
-    return fetch(`/security/${portfolio.link}`)
+  return fetch(`/security/${portfolio.link}`)
         .then(res => res.json());
 }
 
@@ -17,10 +17,10 @@ function querySecurities() {
 function displayOwnedSecurities() {
     // $(this).closest(".info-box")
     // data-id="..."
-    querySecurities()
+  querySecurities()
     .then(function(data) {
-        data.forEach(function(sec) {
-            $('#securities-container').append(
+      data.forEach(function(sec) {
+          $('#securities-container').append(
                 `<div class="info-box">
                   <div class="ticker"><h4>${sec.symbol}</h4></div>
                   <div class="ticker-name"><h4>${sec.name}</h4></div>

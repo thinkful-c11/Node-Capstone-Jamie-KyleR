@@ -1,27 +1,26 @@
-/* global $ */
+/* global $ setDashboard*/
 'use strict';
 $(document).ready(function() {
-    setDashboard();
+  setDashboard();
+  listenForSearch();
 });
 
 //function making API call//
 function getDataFromAPI(ticker) {
-  const results = {};
-  $.getJSON('/api', { symbol: ticker }, function (response) {
-    response.results.map(element =>
-      results[element.symbol] =
-      {
-        ticker: element.symbol,
-        name: element.name,
-        price: element.lastPrice
-      }
-    );
-  });
-  return results;
-}
-
-function renderResults() {
-  
+  // const results = {};
+  return fetch(`/api?symbol=${ticker}`)
+  .then(temp =>  temp.json())
+  // .then(function (response) {
+  //   response.results.map(element =>
+  //     results[element.symbol] =
+  //     {
+  //       ticker: element.symbol,
+  //       name: element.name,
+  //       price: element.lastPrice
+  //     }
+  //   );
+  //   return results;
+  // });
 }
 
 //Call this to empty results from search on Trade page before a new search's results are displayed//
@@ -31,13 +30,22 @@ function emptyResults() {
 
 //Event listener for search submission on Trade page//
 function listenForSearch () {
-  $('form #search-form').submit(function(event) {
+  $('#search-form').submit(function(event) {
     event.preventDefault();
     console.log('This is working');
-    const results = getDataFromAPI();
+    getDataFromAPI($(this).find('input').val())
+    .then(res => renderResults(res.response[0]));
   });
 }
 
+function querySecurities() {
+  return fetch(`/security/${portfolio.link}`)
+        .then(res => res.json());
+}
+
+function renderResults() {
+  
+}
 ///////This HTML should be rendering after a search is conducted and submitted////////
 
 // <div class="info-box">
