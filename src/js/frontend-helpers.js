@@ -1,7 +1,9 @@
 /* global $ portfolio */
 function formatMoney(m) {
     /* 100000 => $100,000 */
-    return '$' + String(m).match(/.{1,3}/g).join(',');
+    return m.toLocaleString('en-US', 
+                        { style: 'currency', 
+                        currency: 'USD' });
 }
 
 function setDashboard() {
