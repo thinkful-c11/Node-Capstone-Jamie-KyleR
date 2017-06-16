@@ -34,10 +34,23 @@ function listenForSearch () {
     event.preventDefault();
     emptyResults();
     getDataFromAPI($(this).find('input').val())
-    .then(res => renderResults(res.results[0]));
+    .then(function(res) {
+      if (res.results === null) {
+        renderInvalidSecurity();
+      } else {
+        renderResults(res.results[0]);
+      }
+    });
   });
 }
 
+function renderInvalidSecurity() {
+  $(`#search-results`).append(`<div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    That is not a valid security DUMBASS!!
+  </div>`);
+}
 
 function renderResults(security) {
   $('#search-results').append(
