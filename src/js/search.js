@@ -32,7 +32,7 @@ function emptyResults() {
 function listenForSearch () {
   $('#search-form').submit(function(event) {
     event.preventDefault();
-    console.log('This is working');
+    emptyResults();
     getDataFromAPI($(this).find('input').val())
     .then(res => renderResults(res.results[0]));
   });
@@ -40,7 +40,6 @@ function listenForSearch () {
 
 
 function renderResults(security) {
-  emptyResults();
   $('#search-results').append(
     `<div class="info-box">
     <div class="ticker"><h4>${security.symbol}</h4></div>
