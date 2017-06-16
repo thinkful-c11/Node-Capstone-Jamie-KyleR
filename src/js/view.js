@@ -47,7 +47,7 @@ function displayOwnedSecurities() {
                   <div class="ticker-name"><h4>${sec.name}</h4></div>
                   <div class="shares-owned"><h4>Total Shares: ${sec.numShares}</h4></div>
                   <p class="share-price">Share Price: $${sec.currentPrice}</p>
-                  <div class="shares-owned-value"><h4>Total Value: $${sec.currentPrice * sec.numShares}</h4></div>
+                  <div class="shares-owned-value"><h4>Total Value: $${Math.round(sec.currentPrice * sec.numShares * 100) / 100}</h4></div>
                   <p> 
                     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#sellModal" data-whatever="sell">
                       Sell
@@ -68,7 +68,7 @@ function displayOwnedSecurities() {
                 <h4>${sec.symbol}</h4>
                 <p class="share-price">Share Price: $${sec.currentPrice}</p>
                 <p class="owned-shares">Number of Shares: ${sec.numShares}</p>
-                <p class="owned-share-value">Total value: $${sec.currentPrice * sec.numShares}</p>
+                <p class="owned-share-value">Total value: $${Math.round(sec.currentPrice * sec.numShares * 100) / 100}</p>
                 <p id="to-sell-input">
                   Shares to sell:
                   <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 10">
@@ -97,7 +97,7 @@ function displayOwnedSecurities() {
                 <h4>${sec.symbol}</h4>
                 <p class="share-price">Share Price: $${sec.currentPrice}</p>
                 <p class="owned-shares">Number of Shares: ${sec.numShares}</p>
-                <p class="owned-share-value">Total value: $${sec.currentPrice * sec.numShares}</p>
+                <p class="owned-share-value">Total value: $${Math.round(sec.currentPrice * sec.numShares * 100) / 100}</p>
                 <p id="to-buy-input">
                   Shares to buy:
                   <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 10">

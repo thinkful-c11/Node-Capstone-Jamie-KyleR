@@ -82,7 +82,7 @@ function renderResults(security) {
               </div>
               <div class="modal-body">
                 <h4>${security.symbol}</h4>
-                <p class="share-price">Share Price: ${security.lastPrice}</p>
+                <p class="share-price">Share Price: $${security.lastPrice}</p>
                 <p class="number-shares-to-buy">
                   Shares to buy:
                   <input required type="text" pattern="\d*" class="accountvalue" placeholder="e.g. 10">

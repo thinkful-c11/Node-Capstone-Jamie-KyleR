@@ -73,7 +73,7 @@ router.put('/', function(req, res) {
   Security
     .findOne({link: req.body.link, symbol: req.body.symbol})
     .then(security => {
-      const updatedShares = security.numShares + req.body.numShares
+      const updatedShares = security.numShares + req.body.numShares;
       Security.findOneAndUpdate(
         {link: req.body.link, symbol: req.body.symbol},
         {$set : {
@@ -83,31 +83,19 @@ router.put('/', function(req, res) {
         {new : true}
       )
       .then(function(updatedSecurity) {
-        // should send file as a redirect
-        console.log(updatedSecurity);
+        console.log(updatedSecurity.link)
       });
-    })
-        // new: true => returns the updated object
-    // .findOneAndUpdate(
-    //   {link: req.body.link, symbol: req.body.symbol}, 
-    //   {$set : {
-    //     currentPrice: req.body.currentPrice,
-    //     numShares: req.body.numShares
-    //   }},
-    //   {new: true})
-    //   .then(function(updatedSecurity) {
-    //     res.status(201).json(updatedSecurity);
-    //   });
+    });
 });
 
 router.delete('/:link', function(req, res) {
   Security
-        .findOneAndRemove({link: req.params.link, symbol: req.body.symbol})
-        .exec()
-        .then(() => {
-          console.log(`Deleted security with id ${req.params.ID}`);
-          res.status(204).end();
-        });
+    .findOneAndRemove({link: req.params.link, symbol: req.body.symbol})
+    .exec()
+    .then(() => {
+      console.log(`Deleted security with id ${req.params.ID}`);
+      res.status(204).end();
+    });
 });
 
 module.exports = router;
