@@ -14,7 +14,7 @@ const barchartUrl = 'https://marketdata.websol.barchart.com/getQuote.json'
                     + `?key=${API_KEY}&mode=i&symbols=`;
 
 router.get('/', function(req, res) {
-    fetch(barchartUrl + req.query.symbol)
+  fetch(barchartUrl + req.query.symbol)
     .then(temp =>  temp.json())
     .then(data => res.json(data));
 });

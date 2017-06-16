@@ -4,9 +4,9 @@
 ///this is formatting the money value into something that looks like funds///
 function formatMoney(m) {
     /* 100000 => $100,000 */
-    return m.toLocaleString('en-US', 
-                        { style: 'currency', 
-                        currency: 'USD' });
+  return m.toLocaleString('en-US', 
+    { style: 'currency', 
+      currency: 'USD' });
 }
 
 function unFormatMoney(m) {
