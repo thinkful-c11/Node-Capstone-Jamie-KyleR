@@ -7,20 +7,8 @@ $(document).ready(function() {
 
 //function making API call//
 function getDataFromAPI(ticker) {
-  // const results = {};
   return fetch(`/api?symbol=${ticker}`)
   .then(temp =>  temp.json());
-  // .then(function (response) {
-  //   response.results.map(element =>
-  //     results[element.symbol] =
-  //     {
-  //       ticker: element.symbol,
-  //       name: element.name,
-  //       price: element.lastPrice
-  //     }
-  //   );
-  //   return results;
-  // });
 }
 
 //Call this to empty results from search on Trade page before a new search's results are displayed//
@@ -38,6 +26,22 @@ function listenForSearch () {
   });
 }
 
+function postPurchasedSecurityOnDashboard(link, symbol, name, initialPrice, numShares) {
+  $.ajax({
+    url: '/security',
+    type: 'POST',
+    data: JSON.stringify({
+      link: link,
+      symbol: symbol,
+      name: name,
+      initialPrice: initialPrice,
+      numShares: numShares
+    }),
+    dataType: 'json',
+    contentType: 'application/json; charset=utf-8',
+    success: 'success'
+  });
+}
 
 function renderResults(security) {
   emptyResults();
@@ -72,16 +76,28 @@ function renderResults(security) {
                 <!--<p class="account-balance">Account balance: </p>-->
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Buy</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Short Sell</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" id="order-buy" class="btn btn-success" data-dismiss="modal">Buy</button>
+                <button type="button" id="short-sell" class="btn btn-primary" data-dismiss="modal">Short Sell</button>
+                <button type="button" id="cancel-order" class="btn btn-danger" data-dismiss="modal">Cancel</button>
               </div>
             </div>
           </div>
         </div>
     </p>
   </div>`
-  );
+  ).find('#order-buy').click(function(event) {
+    console.log('I have clicked Buy on Trade');
+    postPurchasedSecurityOnDashboard(portfolio.link, security.symbol, security.name, security.lastPrice);
+    //link, symbol, name, initialPrice, numShares
+  });
+  $('#short-sell').click(function(event) {
+    console.log('I have clicked on short sell');
+  });
+  $('#cancel-order').click(function(event) {
+    console.log('I have clicked on cancel');
+  });
+  $('input[type="checkbox"]').change(function() { 
+    console.log(123);
+  });
 }
-///////This HTML should be rendering after a search is conducted and submitted////////
 

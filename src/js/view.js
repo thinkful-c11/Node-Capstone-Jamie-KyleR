@@ -93,9 +93,8 @@ function displayOwnedSecurities() {
               </div>
             </div>
           </div>
-        </div>
-                `
-            );
+        </div>`
+        );
       });
     });
 }

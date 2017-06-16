@@ -1,7 +1,7 @@
 /* global $ */
 'use strict';
 
-//Event listener for creat portfolio button on opening page//
+//Event listener for create portfolio button on opening page//
 $('.create-port').submit(function (event) {
   event.preventDefault();
   const username = $(this).find('#username').val();
