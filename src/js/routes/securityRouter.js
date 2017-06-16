@@ -41,7 +41,7 @@ router.post('/', function(req, res) {
       'link': String(),
       'symbol': String(),
       'name': String(),
-      'initialPrice': String(),
+      'initialPrice': Number(),
       'numShares': Number()
     }, 
         req.body);
