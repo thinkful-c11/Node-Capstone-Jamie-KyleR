@@ -115,16 +115,15 @@ function displayOwnedSecurities() {
             </div>
           </div>
         </div>`
-            )
+            );
       });
 
-    $('#buy-shares').click(function(event) {
-        const container = $(this).closest(".modal");
+      $('#buy-shares').click(function(event) {
+        const container = $(this).closest('.modal');
         const sec = container[0].dataset;
         updatePurchasedSecurities(portfolio.link, sec.symbol, sec.currentPrice, sec.numShares);
       });
       
-
 
       $('#buy-checkbox').change(function() {
         if ($(this).is(':checked')) {
