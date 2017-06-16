@@ -14,4 +14,7 @@ function formatMoney(m) {
 function setDashboard() {
   $('#portfolio-name').html(portfolio.name);
   $('#portfolio-value').html(formatMoney(portfolio.value));
+  $('#view-link').append(`<a href="/portfolio/${portfolio.link}">Dashboard</a>`);
+  $('#chart-link').append(`<a href="/portfolio/${portfolio.link}/charts">Charts</a>`);
+  $('#trade-link').append(`<a href="/portfolio/${portfolio.link}/trade">Trade</a>`);
 }

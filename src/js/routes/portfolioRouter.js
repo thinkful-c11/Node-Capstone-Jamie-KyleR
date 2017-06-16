@@ -54,6 +54,19 @@ router.get('/:link/trade', function(req, res) {
       });
 });
 
+router.get('/:link/charts', function(req, res) {
+  Portfolio
+      .find({ link: req.params.link })
+      .select('-_id link name value')
+      .then(function (item) {
+        res.send(addPortfolioDataToFile('/src/html/chart.html', item));
+      })
+      .catch(function (err) {
+        console.error(err);
+        res.status(404).json({ error: 'Not Found' });
+      });
+});
+
 router.post('/', function (req, res) {
   const valid = validateFields(req.body,
     {

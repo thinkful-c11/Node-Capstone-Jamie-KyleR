@@ -1,6 +1,8 @@
 /* global $ */
 'use strict';
-
+$(document).ready(function() {
+    setDashboard();
+});
 
 //function making API call//
 function getDataFromAPI(ticker) {
