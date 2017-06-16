@@ -1,10 +1,12 @@
 /* global $ portfolio setDashboard */
+'use strict';
+
 $(document).ready(function() {
     setDashboard();
     displayOwnedSecurities();
 });
 
-// retrieves all of the current portfolio's securities
+//retrieves all of the current portfolio's securities
 async function querySecurities() {
     return await $.ajax({
         type: 'GET',
@@ -16,6 +18,8 @@ async function querySecurities() {
     });
 };
 
+
+//displays owned securities on portfolio page//
 function displayOwnedSecurities() {
     querySecurities()
     .then(function(data) {

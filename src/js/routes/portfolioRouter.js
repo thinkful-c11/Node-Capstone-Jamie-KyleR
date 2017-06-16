@@ -18,7 +18,7 @@ const dirname = __dirname.split('/').slice(0, -3).join('/');
 
 // REMOVE IN PRODUCTION
 router.get('/', function (req, res) {
-    Portfolio
+  Portfolio
         .find()
         .then(function (portfolio) {
           res.json(portfolio);

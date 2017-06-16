@@ -1,5 +1,8 @@
 /* global $ */
 'use strict';
+
+
+//function making API call//
 function getDataFromAPI(ticker) {
   const results = {};
   $.getJSON('/api', { symbol: ticker }, function (response) {
@@ -19,11 +22,12 @@ function renderResults() {
   
 }
 
+//Call this to empty results from search on Trade page before a new search's results are displayed//
 function emptyResults() {
   $('#search-results').empty();
 }
 
-///EVENT LISTENER/////
+//Event listener for search submission on Trade page//
 function listenForSearch () {
   $('form #search-form').submit(function(event) {
     event.preventDefault();
@@ -32,6 +36,7 @@ function listenForSearch () {
   });
 }
 
+///////This HTML should be rendering after a search is conducted and submitted////////
 
 // <div class="info-box">
 //     <div class="ticker"><h4>APPL</h4></div>

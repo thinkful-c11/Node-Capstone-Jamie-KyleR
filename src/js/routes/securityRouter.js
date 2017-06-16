@@ -74,9 +74,9 @@ router.put('/', function(req, res) {
         .findOneAndUpdate(
             {link: req.body.link, symbol: req.body.symbol}, 
     {$set : {
-        currentPrice: req.body.currentPrice,
-        numShares: req.body.numShares
-      }
+      currentPrice: req.body.currentPrice,
+      numShares: req.body.numShares
+    }
     },
             {new: true}
         )
