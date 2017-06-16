@@ -38,6 +38,7 @@ function listenForSearch () {
   });
 }
 
+function listenForBuy
 
 function renderResults(security) {
   emptyResults();
