@@ -32,16 +32,27 @@ function emptyResults() {
 function listenForSearch () {
   $('#search-form').submit(function(event) {
     event.preventDefault();
-    console.log('This is working');
+    emptyResults();
     getDataFromAPI($(this).find('input').val())
-    .then(res => renderResults(res.results[0]));
+    .then(function(res) {
+      if (res.results === null) {
+        renderInvalidSecurity();
+      } else {
+        renderResults(res.results[0]);
+      }
+    });
   });
 }
 
-function listenForBuy
+function renderInvalidSecurity() {
+  $(`#search-results`).append(`<div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    That is not a valid security DUMBASS!!
+  </div>`);
+}
 
 function renderResults(security) {
-  emptyResults();
   $('#search-results').append(
     `<div class="info-box">
     <div class="ticker"><h4>${security.symbol}</h4></div>
