@@ -120,8 +120,6 @@ function displayOwnedSecurities() {
             });
       });
 
-     
-
       $('#buy-checkbox').change(function() {
         if ($(this).is(':checked')) {
           const accountVal = unFormatMoney($('body').find('#portfolio-value').text());

@@ -41,20 +41,22 @@ function renderInvalidSecurity() {
 }
 
   
-function postPurchasedSecurityOnDashboard(link, symbol, name, initialPrice, numShares) {
+function postPurchasedSecurityOnDashboard(link, symbol, currentPrice, numShares) {
   $.ajax({
     url: '/security',
-    type: 'POST',
+    type: 'PUT',
     data: JSON.stringify({
       link: link,
       symbol: symbol,
-      name: name,
-      initialPrice: initialPrice,
+      currentPrice: currentPrice,
       numShares: numShares
     }),
     dataType: 'json',
+    async: true,
     contentType: 'application/json; charset=utf-8',
-    success: 'success'
+    success: function() {
+      
+    }
   });
 }
 
@@ -102,7 +104,7 @@ function renderResults(security) {
   ).find('#order-buy').click(function(event) {
     console.log('I have clicked Buy on Trade');
     const numberShares = unFormatMoney($(this).parent().siblings('.modal-body').find('.accountvalue').val());
-    postPurchasedSecurityOnDashboard(portfolio.link, security.symbol, security.name, security.lastPrice, numberShares);
+    postPurchasedSecurityOnDashboard(portfolio.link, security.symbol, security.lastPrice, numberShares);
   });
   $('#short-sell').click(function(event) {
     console.log('I have clicked on short sell');

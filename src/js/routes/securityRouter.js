@@ -49,7 +49,7 @@ router.post('/', function(req, res) {
   if (valid.error) {
     return res.status(400).json({response: valid.error});
   }
-
+  
   Security
         .create({
           link: req.body.link,
@@ -70,19 +70,22 @@ router.post('/', function(req, res) {
 
 router.put('/', function(req, res) {
   Security
+    .findOne({link: req.body.link, symbol: req.body.symbol})
+    .then(security => {
+      console.log("Security", security)
+      console.log("req.body", req.body)
+    })
         // new: true => returns the updated object
-        .findOneAndUpdate(
-            {link: req.body.link, symbol: req.body.symbol}, 
-    {$set : {
-      currentPrice: req.body.currentPrice,
-      numShares: req.body.numShares
-    }
-    },
-            {new: true}
-        )
-        .then(function(updatedSecurity) {
-          res.status(201).json(updatedSecurity);
-        });
+    // .findOneAndUpdate(
+    //   {link: req.body.link, symbol: req.body.symbol}, 
+    //   {$set : {
+    //     currentPrice: req.body.currentPrice,
+    //     numShares: req.body.numShares
+    //   }},
+    //   {new: true})
+    //   .then(function(updatedSecurity) {
+    //     res.status(201).json(updatedSecurity);
+    //   });
 });
 
 router.delete('/:link', function(req, res) {
