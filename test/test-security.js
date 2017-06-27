@@ -1,4 +1,4 @@
-'use strict';
+
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -7,12 +7,13 @@ const faker = require('faker');
 
 const should = chai.should();
 
-const{Security} = require('../src/js/schemas/portfolioSchema');
-const {generateRandomUrl} = require('../src/js/helpers');
-const {app, runServer, closeServer} = require('../server');
+const { Security } = require('../src/js/schemas/portfolioSchema');
+const { generateRandomUrl } = require('../src/js/helpers');
+const { app, runServer, closeServer } = require('../server');
 const router = require('../src/js/routes/portfolioRouter');
 
-const {TEST_DATABASE_URL} = require('../config/config');
+const { TEST_DATABASE_URL } = require('../config/config');
+
 const dirname = __dirname.split('/').slice(0, -3).join('/');
 
 chai.use(chaiHttp);
@@ -34,9 +35,9 @@ function generateSecuritiesData(portfolioLink) {
     link: portfolioLink || generateRandomUrl(),
     symbol: faker.address.city(),
     name: faker.company.companyName(),
-    initialPrice: faker.random.number({min: 1, max: 500}),
+    initialPrice: faker.random.number({ min: 1, max: 500 }),
     // currentPrice: faker.random.number({min: 1, max: 500}),
-    numShare: faker.random.number({min:1, max: 500})
+    numShare: faker.random.number({ min: 1, max: 500 }),
   };
 }
 
@@ -46,52 +47,43 @@ function tearDownDb() {
   return mongoose.connection.dropDatabase();
 }
 
-describe('Portfolio API resource', function () {
+describe('Portfolio API resource', () => {
+  before(() => runServer(TEST_DATABASE_URL));
 
-  before(function () {
-    return runServer(TEST_DATABASE_URL);
-  });
-
-  beforeEach(function () {
-    return seedSecuritiesData();
-  });
+  beforeEach(() => seedSecuritiesData());
 
   // afterEach(function () {
   //   return tearDownDb();
   // });
 
-  after(function () {
-    return closeServer();
-  });
+  after(() => closeServer());
 
 
-  describe.skip('GET endpoint', function () {
-    it('should return portfolios with right fields', function () {
+  describe.skip('GET endpoint', () => {
+    it('should return portfolios with right fields', () =>
       // Strategy: Get back portfolio, and ensure it has expected keys
-      return Portfolio
+       Portfolio
         .find()
         .exec()
-        .then(res => {
-          let url = res[0].link;
+        .then((res) => {
+          const url = res[0].link;
           return chai.request(app)
           .get(`/portfolio/${url}`);
         })
-        .then(function (res) {
+        .then((res) => {
           res.should.have.status(200);
           res.should.be.a('object');
-        });
-    });
+        }));
   });
 
-  describe.skip('POST endpoint', function () {
-
-    it('should add a new security to portfolio', function () {
+  describe.skip('POST endpoint', () => {
+    it('should add a new security to portfolio', () => {
       const newPortfolio = generatePortfolioData();
-    
+
       return chai.request(app)
         .post('/')
         .send(newPortfolio)
-        .then(function (res) {
+        .then((res) => {
           res.should.have.status(201);
           res.should.be.json;
           res.body.should.be.a('object');
@@ -105,7 +97,7 @@ describe('Portfolio API resource', function () {
           createdAt = res.body.created;
           return Portfolio.findById(res.body.id);
         })
-        .then(function (portfolio) {
+        .then((portfolio) => {
           portfolio.title.should.equal(newPortfolio.title);
           portfolio.content.should.equal(newPortfolio.content);
           portfolio.author.firstName.should.equal(newPortfolio.author.firstName);
@@ -113,8 +105,6 @@ describe('Portfolio API resource', function () {
         });
     });
   });
+}); // closing describe
 
-
-}); //closing describe 
-
-module.exports = {generateSecuritiesData};
+module.exports = { generateSecuritiesData };

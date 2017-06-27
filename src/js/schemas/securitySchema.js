@@ -1,4 +1,4 @@
-'use strict';
+
 
 const mongoose = require('mongoose');
 
@@ -8,9 +8,9 @@ const securitySchema = mongoose.Schema({
   name: String,
   initialPrice: Number,
   currentPrice: Number,
-  numShares: Number
+  numShares: Number,
 });
 
 const Security = mongoose.model('Security', securitySchema);
 
-module.exports = {Security};
+module.exports = { Security };

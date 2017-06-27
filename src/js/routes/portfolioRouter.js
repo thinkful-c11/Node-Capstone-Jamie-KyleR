@@ -1,10 +1,10 @@
-'use strict';
+
 const express = require('express');
 const mongoose = require('mongoose');
+
 mongoose.Promise = global.Promise;
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const fs = require('fs');
 
 const { Portfolio } = require('../schemas/portfolioSchema');
 const { generateRandomUrl, validateFields, addPortfolioDataToFile } = require('../helpers');
@@ -14,64 +14,62 @@ router.use(morgan('common'));
 router.use(bodyParser.json());
 router.use(express.static('src'));
 
-const dirname = __dirname.split('/').slice(0, -3).join('/');
-
 // REMOVE IN PRODUCTION
-router.get('/', function (req, res) {
+router.get('/', (req, res) => {
   Portfolio
         .find()
-        .then(function (portfolio) {
+        .then((portfolio) => {
           res.json(portfolio);
         })
-        .catch(function (err) {
+        .catch((err) => {
           console.error(err);
         });
 });
 
-router.get('/:link', function (req, res) {
+router.get('/:link', (req, res) => {
   Portfolio
         .find({ link: req.params.link })
         .select('-_id link name value')
-        .then(function (item) {
+        .then((item) => {
           res.send(addPortfolioDataToFile('/src/html/portfolioview.html', item));
         })
-        .catch(function (err) {
+        .catch((err) => {
           console.error(err);
           res.status(404).json({ error: 'Not Found' });
         });
 });
 
-router.get('/:link/trade', function(req, res) {
+router.get('/:link/trade', (req, res) => {
   Portfolio
       .find({ link: req.params.link })
       .select('-_id link name value')
-      .then(function (item) {
+      .then((item) => {
         res.send(addPortfolioDataToFile('/src/html/trade.html', item));
       })
-      .catch(function (err) {
+      .catch((err) => {
         console.error(err);
         res.status(404).json({ error: 'Not Found' });
       });
 });
 
-router.get('/:link/charts', function(req, res) {
+router.get('/:link/charts', (req, res) => {
   Portfolio
       .find({ link: req.params.link })
       .select('-_id link name value')
-      .then(function (item) {
+      .then((item) => {
         res.send(addPortfolioDataToFile('/src/html/chart.html', item));
       })
-      .catch(function (err) {
+      .catch((err) => {
         console.error(err);
         res.status(404).json({ error: 'Not Found' });
       });
 });
 
-router.post('/', function (req, res) {
+router.post('/', (req, res) => {
   const valid = validateFields(req.body,
     {
-      'name': String(),
-      'value': Number()
+      name: String(),
+      value: Number(),
     });
   console.log('this is our body', req.body);
   if (valid.error) {
@@ -84,29 +82,29 @@ router.post('/', function (req, res) {
         .create({
           link: generateRandomUrl(),
           name: req.body.name,
-          value: req.body.value
+          value: req.body.value,
         })
-        .then(function (createdPortfolio) {
+        .then((createdPortfolio) => {
             /*
             app should redirect to portfolio page
             */
           res.json(createdPortfolio.link);
         })
-        .catch(function (err) {
+        .catch((err) => {
           console.error(err);
           res.status(500).json({ error: 'Something went wrong' });
         });
 });
 
-router.put('/:link', function (req, res) {
+router.put('/:link', (req, res) => {
   Portfolio
         // new: true => returns the updated object
         .findOneAndUpdate(
         { link: req.params.link },
         { value: req.body.value },
-        { new: true }
+        { new: true },
         )
-        .then(function (updatedPortfolio) {
+        .then((updatedPortfolio) => {
           res.status(201).json(updatedPortfolio);
         });
 });

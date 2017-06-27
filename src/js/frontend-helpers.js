@@ -1,21 +1,21 @@
 /* global $ portfolio */
-'use strict';
+/* eslint no-unused-vars: 0 */
 
-///this is formatting the money value into something that looks like funds///
+
+// /this is formatting the money value into something that looks like funds///
 function formatMoney(m) {
     /* 100000 => $100,000 */
-  return m.toLocaleString('en-US', 
-    { style: 'currency', 
+  return m.toLocaleString('en-US',
+    { style: 'currency',
       currency: 'USD' });
 }
 
 function unFormatMoney(m) {
-  return Number(m.replace(/[^0-9\.]+/g,""));
+  return Number(m.replace(/[^0-9.]+/g, ''));
 }
 
 
-
-///this is setting the dashboard to name and values to equal what was submitted///
+// /this is setting the dashboard to name and values to equal what was submitted///
 function setDashboard() {
   $('#portfolio-name').html(portfolio.name);
   $('#portfolio-value').html(formatMoney(portfolio.value));

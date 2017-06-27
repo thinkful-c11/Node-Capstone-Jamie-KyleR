@@ -1,14 +1,4 @@
-/* global $ portfolio setDashboard */
-'use strict';
-
-$(document).ready(function() {
-  setDashboard();
-  displayOwnedSecurities();
-});
-
-$('#123').on('change', function() {
-  console.log(123);
-});
+/* global $ portfolio setDashboard document unFormatMoney fetch*/
 
 // retrieves all of the current portfolio's securities
 function querySecurities() {
@@ -22,25 +12,25 @@ function updatePurchasedSecurities(link, symbol, currentPrice, numShares) {
     url: '/security',
     type: 'PUT',
     data: JSON.stringify({
-      link: link,
-      symbol: symbol,
-      currentPrice: currentPrice,
-      numShares: +numShares
+      link,
+      symbol,
+      currentPrice,
+      numShares: +numShares,
     }),
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
-    success: 'success'
+    success: 'success',
   });
 }
 
 
-//displays owned securities on portfolio page//
+// displays owned securities on portfolio page//
 function displayOwnedSecurities() {
     // $(this).closest(".info-box")
     // data-id="..."
   querySecurities()
-    .then(function(data) {
-      data.forEach(function(sec) {
+    .then((data) => {
+      data.forEach((sec) => {
         $('#securities-container').append(
                 `<div class="info-box">
                   <div class="ticker"><h4>${sec.symbol}</h4></div>
@@ -114,31 +104,32 @@ function displayOwnedSecurities() {
               </div>
             </div>
           </div>
-        </div>`
+        </div>`,
             );
       });
 
-      $('#buy-shares').click(function(event) {
+      $('#buy-shares').click(() => {
         const container = $(this).closest('.modal');
         const sec = container[0].dataset;
         const requestedShares = $(this).closest('#buyModal').find('input.accountvalue').val();
         updatePurchasedSecurities(portfolio.link, sec.symbol, sec.currentprice, requestedShares);
       });
-      
 
-      $('#buy-checkbox').change(function() {
+
+      $('#buy-checkbox').change(() => {
         if ($(this).is(':checked')) {
           const accountVal = unFormatMoney($('body').find('#portfolio-value').text());
-          const sharePrice = unFormatMoney($(this).parent().siblings('.share-price').text().split(' ')[2]);
+          const sharePrice = unFormatMoney($(this).parent().siblings('.share-price').text()
+                            .split(' ')[2]);
           $(this)
             .parent()
             .siblings('#to-buy-input')
             .children('input.accountvalue')
             .val(Math.floor(accountVal / sharePrice));
-        } 
+        }
       });
-      
-      $('#sell-checkbox').change(function() {
+
+      $('#sell-checkbox').change(() => {
         if ($(this).is(':checked')) {
           const ownedShares = unFormatMoney($(this).parent().siblings('.owned-shares').text());
           $(this)
@@ -146,8 +137,13 @@ function displayOwnedSecurities() {
             .siblings('#to-sell-input')
             .children('input.accountvalue')
             .val(ownedShares);
-        } 
+        }
       });
-
     });
 }
+
+
+$(document).ready(() => {
+  setDashboard();
+  displayOwnedSecurities();
+});

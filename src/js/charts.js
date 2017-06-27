@@ -1,5 +1,5 @@
-'use strict';
+/* global document $ setDashboard */
 
-$(document).ready(function() {
-    setDashboard();
+$(document).ready(() => {
+  setDashboard();
 });
