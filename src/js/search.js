@@ -34,9 +34,7 @@ function postPurchasedSecurityOnDashboard(link, name, symbol, currentPrice, numS
     dataType: 'json',
     async: true,
     contentType: 'application/json; charset=utf-8',
-    success() {
-
-    },
+    success() {},
   });
 }
 
@@ -80,10 +78,10 @@ function renderResults(security) {
           </div>
         </div>
     </p>
-  </div>`,
+  </div>`
   ).find('#order-buy').click(() => {
-    const numberShares = unFormatMoney($(this).parent().siblings('.modal-body').find('.accountvalue')
-                        .val());
+    const numberShares = unFormatMoney($('body .modal-body').find('.accountvalue').val());
+
     postPurchasedSecurityOnDashboard(
       portfolio.link, security.name, security.symbol, security.lastPrice, numberShares);
   });
@@ -111,7 +109,7 @@ function listenForSearch() {
   $('#search-form').submit((event) => {
     event.preventDefault();
     emptyResults();
-    getDataFromAPI($(this).find('input').val())
+    getDataFromAPI($('body').find('input').val())
     .then((res) => {
       if (res.results === null) {
         renderInvalidSecurity();

@@ -81,7 +81,7 @@ router.put('/', (req) => {
           currentPrice: req.body.currentPrice,
           numShares: updatedShares,
         } },
-        { new: true },
+        { new: true }
       )
       .then((updatedSecurity) => {
         console.log(updatedSecurity.link);

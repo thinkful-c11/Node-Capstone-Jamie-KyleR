@@ -102,7 +102,7 @@ router.put('/:link', (req, res) => {
         .findOneAndUpdate(
         { link: req.params.link },
         { value: req.body.value },
-        { new: true },
+        { new: true }
         )
         .then((updatedPortfolio) => {
           res.status(201).json(updatedPortfolio);
